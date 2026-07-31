@@ -1,0 +1,31 @@
+name: UltimateTags
+version: ${version}
+main: dev.ultimatetags.UltimateTagsPlugin
+api-version: "1.21"
+folia-supported: false
+authors:
+  - UltimateTags
+description: Modern Adventure/MiniMessage tag system for Paper servers.
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    LuckPerms:
+      load: BEFORE
+      required: false
+      join-classpath: false
+    TAB:
+      load: BEFORE
+      required: false
+      join-classpath: false
+    nChat:
+      load: BEFORE
+      required: false
+      join-classpath: false
+permissions:
+  ultimatetags.admin:
+    default: op
+  ultimatetags.use:
+    default: true
