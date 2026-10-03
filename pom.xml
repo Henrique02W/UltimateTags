@@ -4,14 +4,33 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.ultimatetags</groupId>
+    <groupId>io.github.henrique02w</groupId>
     <artifactId>UltimateTags</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
+    <name>UltimateTags</name>
+    <description>Plugin de tags moderno com Adventure/MiniMessage para Paper 26.2.</description>
+    <url>https://github.com/Henrique02W/UltimateTags</url>
+
+    <licenses>
+        <license>
+            <name>Custom Non-Commercial Software License v1.0</name>
+            <url>https://github.com/Henrique02W/UltimateTags/blob/main/LICENSE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
+        <java.version>25</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!--
+            Build do Paper fixado para builds reproduzíveis. Para atualizar, veja os builds
+            disponíveis em https://docs.papermc.io/paper/dev/project-setup e troque o valor abaixo.
+        -->
+        <paper.api.version>26.2.build.121-stable</paper.api.version>
     </properties>
 
     <repositories>
@@ -29,7 +48,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.8-R0.1-SNAPSHOT</version>
+            <version>${paper.api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -47,17 +66,17 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>5.1.0</version>
+            <version>6.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.46.1.0</version>
+            <version>3.47.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -68,18 +87,50 @@
 
     <build>
         <resources>
+            <!-- Só o paper-plugin.yml recebe filtragem (${project.version}); o resto fica intacto. -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <includes>
+                    <include>paper-plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>paper-plugin.yml</exclude>
+                </excludes>
             </resource>
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-java</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[${java.version},)</version>
+                                    <message>O Maven precisa rodar com JDK ${java.version}+. Confira "Java version" em `mvn -v` e o JAVA_HOME.</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -97,11 +148,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>dev.ultimatetags.libs.bstats</shadedPattern>
+                                    <shadedPattern>io.github.henrique02w.ultimatetags.libs.bstats</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.zaxxer.hikari</pattern>
-                                    <shadedPattern>dev.ultimatetags.libs.hikari</shadedPattern>
+                                    <shadedPattern>io.github.henrique02w.ultimatetags.libs.hikari</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

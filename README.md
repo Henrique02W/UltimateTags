@@ -2,13 +2,16 @@
 
 ![Licença](https://img.shields.io/badge/licença-Non--Commercial-blue)
 ![Status](https://img.shields.io/badge/status-ativo-success)
-![Versão](https://img.shields.io/badge/versão-1.0.0-informational)
-![Java](https://img.shields.io/badge/java-17+-orange)
-![Minecraft](https://img.shields.io/badge/minecraft-1.21.8+-brightgreen)
+[![Build](https://github.com/Henrique02W/UltimateTags/actions/workflows/build.yml/badge.svg)](https://github.com/Henrique02W/UltimateTags/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Henrique02W/UltimateTags?display_name=tag)](https://github.com/Henrique02W/UltimateTags/releases/latest)
+![Minecraft](https://img.shields.io/badge/minecraft-26.2-brightgreen)
+![Paper](https://img.shields.io/badge/paper-26.2-blue)
+![Java](https://img.shields.io/badge/java-25-orange)
 ![Adventure](https://img.shields.io/badge/adventure-MiniMessage-9146FF)
-![Contribuições](https://img.shields.io/badge/contribuições-bem--vindas-orange)
 
 > 🏷️ Um plugin de tags moderno para Paper/Purpur/Pufferfish, com Adventure Components e MiniMessage nativo.
+
+🇧🇷 Português · [🇺🇸 English](README.en.md)
 
 ---
 
@@ -44,10 +47,10 @@ O projeto foi pensado para ser:
 
 ## 🧰 Tecnologias Utilizadas
 
-* ☕ Java 17+
-* 📦 Maven e Gradle (ambos suportados)
+* ☕ Java 25
+* 📦 Maven
 * ✨ Kyori Adventure + MiniMessage
-* 🗺️ Paper, Purpur ou Pufferfish 1.21.8+
+* 🗺️ Paper 26.2 (ou forks compatíveis)
 * 🧩 PlaceholderAPI, LuckPerms, TAB, nChat (integrações opcionais)
 
 ---
@@ -77,10 +80,12 @@ UltimateTags/
 │       │   │   ├── UnlockItemListener.java
 │       │   │   └── UnlockItemService.java
 │       │   ├── permission/
+│       │   │   ├── LuckPermsHook.java
 │       │   │   └── PermissionService.java
 │       │   ├── render/
 │       │   │   └── MiniMessageRenderer.java
 │       │   ├── storage/
+│       │   │   ├── PlayerDataLifecycleListener.java
 │       │   │   ├── PlayerTagData.java
 │       │   │   ├── PlayerTagRepository.java
 │       │   │   ├── SqlPlayerTagRepository.java
@@ -105,13 +110,15 @@ UltimateTags/
 │               └── vip.yml
 ├── docs/
 │   └── wiki.md
+├── .github/
+│   ├── workflows/            # CI (build) e release por tag
+│   └── dependabot.yml
 ├── pom.xml
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradle.properties
+├── CHANGELOG.md
+├── CONTRIBUTING.md
 ├── LICENSE.md
 ├── LICENSE_pt.md
-└── README.md
+└── README.md / README.en.md
 ```
 
 ---
@@ -120,9 +127,18 @@ UltimateTags/
 
 ### 📦 Requisitos
 
-* Servidor Paper, Purpur ou Pufferfish para Minecraft 1.21.8 ou superior
-* Java 17 ou superior
+* Servidor Paper, Purpur ou Pufferfish para Minecraft 26.2
+* Java 25 ou superior
 * (Opcional) PlaceholderAPI, LuckPerms, TAB e/ou nChat instalados
+
+> ℹ️ A partir da versão **2.0.0** o plugin suporta apenas o Minecraft 26.2 (Paper). A linha 1.x, feita para o 1.21.8, não recebe mais suporte.
+
+### 🔄 Atualizando da versão 1.x (1.21.8)
+
+* Faça backup da pasta `plugins/UltimateTags/` (`config.yml`, `messages/`, `tags/` e, se usar storage YAML ou SQLite, a pasta `data/`).
+* O nome do plugin e o formato de armazenamento (YAML, SQLite, MariaDB/MySQL) não mudaram, então os dados dos jogadores continuam compatíveis.
+* Se você usa `permissions.grant-mode: LUCKPERMS`: na 1.x essa opção não tinha efeito algum e o plugin sempre executava o comando fallback por baixo dos panos; a partir da 2.0.0 ele realmente usa a API do LuckPerms quando ela está presente. O comportamento visível para o jogador é o mesmo, mas vale conferir se os grupos/permissões continuam corretos após a atualização.
+* Atualize o servidor para Paper 26.2 com Java 25 e troque o `.jar` pela versão 2.x.
 
 ---
 
@@ -134,21 +150,12 @@ git clone https://github.com/Henrique02W/UltimateTags.git
 
 # Entrar na pasta
 cd UltimateTags
+
+# Compilar (requer JDK 25)
+mvn package
 ```
 
-Compile com Maven:
-
-```bash
-mvn -DskipTests package
-```
-
-Ou com Gradle:
-
-```bash
-gradle build
-```
-
-O jar final fica em `target/UltimateTags-1.0.0.jar` quando compilado com Maven. Coloque o arquivo gerado na pasta `/plugins` do seu servidor.
+O jar final fica em `target/UltimateTags-<versão>.jar`. Coloque o arquivo gerado na pasta `/plugins` do seu servidor.
 
 ---
 
@@ -233,7 +240,7 @@ O jogador recebe um item real de desbloqueio. Ao usá-lo, o UltimateTags valida 
 
 ## 📚 Documentação
 
-Veja [docs/wiki.md](docs/wiki.md) para detalhes completos sobre estrutura de arquivos, MiniMessage, permissões, banco de dados e integrações, além dos exemplos em `src/main/resources`.
+Veja o [CHANGELOG.md](CHANGELOG.md) para o histórico de versões e [docs/wiki.md](docs/wiki.md) para detalhes completos sobre estrutura de arquivos, MiniMessage, permissões, banco de dados e integrações, além dos exemplos em `src/main/resources`.
 
 ---
 

@@ -1,10 +1,11 @@
 name: UltimateTags
-version: ${version}
-main: dev.ultimatetags.UltimateTagsPlugin
-api-version: "1.21"
+version: ${project.version}
+main: io.github.henrique02w.ultimatetags.UltimateTagsPlugin
+api-version: "26.2"
 folia-supported: false
 authors:
-  - UltimateTags
+  - Henrique02W
+website: https://github.com/Henrique02W/UltimateTags
 description: Modern Adventure/MiniMessage tag system for Paper servers.
 dependencies:
   server:
@@ -15,7 +16,7 @@ dependencies:
     LuckPerms:
       load: BEFORE
       required: false
-      join-classpath: false
+      join-classpath: true
     TAB:
       load: BEFORE
       required: false

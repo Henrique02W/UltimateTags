@@ -53,7 +53,7 @@ O formato abaixo e suportado em chat, TAB, nametag, placeholders, GUI, preview, 
 
 A permissao individual e derivada do nome da tag. Exemplo: `Nozes` vira `tags.nozes`; `Tag Especial` vira `tags.tag_especial`.
 
-Quando instalado, o LuckPerms e usado para conceder ou remover permissoes permanentes. Sem LuckPerms, o plugin executa os comandos fallback definidos em `config.yml`.
+Quando instalado, o LuckPerms e usado (via API, nao via comando) para conceder ou remover permissoes permanentes, desde que `permissions.grant-mode` nao esteja como `COMMAND`. Sem LuckPerms, ou com `grant-mode: COMMAND`, o plugin executa os comandos fallback definidos em `config.yml`.
 
 ## Comandos
 
